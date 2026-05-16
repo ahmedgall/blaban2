@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسابقة الفزعة الكبرى | بـ لبن</title>
+    <style>
+        /* --- ريسيت وألوان البراند --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        :root {
+            --primary-blue: #0056b3;
+            --light-blue: #e6f0fa;
+            --whatsapp-green: #25D366;
+            --text-dark: #333;
+            --bg-gray: #f0f2f5;
+        }
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- الهيدر الاحترافي --- */
+        header {
+            background-color: #fff;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        /* --- الحاوية الرئيسية للمراحل --- */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            margin: 20px 0;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- العناصر والنصوص --- */
+        h2 {
+            font-size: 19px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+            line-height: 1.4;
+        }
+        p.desc {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        /* --- الأزرار --- */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .btn:hover { background-color: #004085; }
+        
+        .btn-whatsapp {
+            background-color: var(--whatsapp-green);
+        }
+        .btn-whatsapp:hover { background-color: #1ebd54; }
+
+        /* زر الحصول على الجائزة (مطفي افتراضياً) */
+        .btn-claim {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            margin-top: 15px;
+            border: 2px solid #bbb;
+        }
+        .btn-claim.ready {
+            background-color: #ffc107;
+            color: #000;
+            cursor: pointer;
+            border: none;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+
+        /* --- حقول الإدخال --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+        }
+        .input-group input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        /* --- شريط تحميل الأسئلة (العلوي) --- */
+        .quiz-progress-container {
+            background-color: #eee;
+            border-radius: 4px;
+            width: 100%;
+            height: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .quiz-progress-bar {
+            background-color: var(--primary-blue);
+            width: 33.33%; /* يبدأ بـ 33% للسؤال الأول */
+            height: 100%;
+            transition: width 0.4s ease;
+        }
+
+        /* --- شريط تحميل الواتساب الذكي --- */
+        .progress-container {
+            background-color: #eee;
+            border-radius: 10px;
+            width: 100%;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            background-color: var(--whatsapp-green);
+            width: 0%;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            line-height: 20px;
+            z-index: 2;
+        }
+
+        /* --- أنيميشن صفحة النهاية --- */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #d4edda;
+            color: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+
+        /* --- قسم تعليقات فيسبوك الوهمي --- */
+        .comments-section {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .comments-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: #4b4f56;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .comment {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f2f3f5;
+            padding-bottom: 10px;
+        }
+        .comment:last-child { border: none; }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .comment-content {
+            flex-grow: 1;
+        }
+        .user-name {
+            font-size: 13px;
+            font-weight: bold;
+            color: #365899;
+            margin-bottom: 3px;
+        }
+        .comment-text {
+            font-size: 13px;
+            color: #1c1e21;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+        .comment-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+        }
+        .comment-actions {
+            font-size: 11px;
+            color: #90949c;
+            font-weight: bold;
+        }
+        .comment-actions span { margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="بلبن.png" alt="بـ لبن" class="logo-img">
+    </header>
+
+    <div class="container">
+        
+        <div id="q-1" class="step active">
+            <div class="quiz-progress-container"><div class="quiz-progress-bar" style="width: 33.33%;"></div></div>
+            <h2>السؤال 1 من 3: هل قمت بالشراء من فروع بـ لبن سابقاً؟ 🤔</h2>
+            <button class="btn" onclick="nextQuiz(1, 2)">نعم، بالتأكيد</button>
+            <button class="btn" onclick="nextQuiz(1, 2)">لا، لم أجرب بعد</button>
+        </div>
+
+        <div id="q-2" class="step">
+            <div class="quiz-progress-container"><div class="quiz-progress-bar" style="width: 66.66%;"></div></div>
+            <h2>السؤال 2 من 3: ما هو تقييمك لمدى رضاك عن منتجات بـ لبن؟ ✨</h2>
+            <button class="btn" onclick="nextQuiz(2, 3)">ممتازة وتستحق التجربة 🍦</button>
+            <button class="btn" onclick="nextQuiz(2, 3)">جيدة جداً</button>
+            <button class="btn" onclick="nextQuiz(2, 3)">تحتاج لبعض التطوير</button>
+        </div>
+
+        <div id="q-3" class="step">
+            <div class="quiz-progress-container"><div class="quiz-progress-bar" style="width: 100%;"></div></div>
+            <h2>السؤال 3 من 3: ما هو المنتج المفضل لديك من منيو بـ لبن؟ 🍧</h2>
+            <button class="btn" onclick="goToPhoneStep()">القشطوطة أو الغرقانة</button>
+            <button class="btn" onclick="goToPhoneStep()">الامبراطور أو الكشري</button>
+            <button class="btn" onclick="goToPhoneStep()">الآيس كريم والمكسرات</button>
+        </div>
+
+
+        <div id="step-phone" class="step">
+            <h2>إجاباتك تؤهلك للفوز بالفزعة الكبرى! 🎉</h2>
+            <p class="desc">الرجاء إدخال رقم هاتفك المحمول (المسجل بالواتساب) لكي نتمكن من التواصل معك وإرسال كود الاستلام الفوري.</p>
+            <div class="input-group">
+                <input type="tel" id="phone-input" placeholder="اكتب رقم موبايلك هنا (مثال: 010xxxxxxxx)" required>
+            </div>
+            <button class="btn" onclick="processData()">تأكيد الرقم والانتقال للخطوة الأخيرة</button>
+        </div>
+
+
+        <div id="step-share" class="step">
+            <h2>خطوة واحدة تفصلك عن الهدية! 📱</h2>
+            <p class="desc">أنت بحاجة لمشاركة المسابقة مع 10 من أصدقائك أو مجموعاتك على الواتساب لملء شريط التحقق التلقائي وتفعيل زر الاستلام.</p>
+            
+            <div class="progress-container">
+                <div class="progress-text" id="progress-text">جاري انتظار المشاركة... 0%</div>
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <button class="btn btn-whatsapp" onclick="smartShare()">اضغط هنا للمشاركة على الواتساب 🟢</button>
+            
+            <button id="claim-btn" class="btn btn-claim" disabled onclick="goToSuccessPage()">الحصول على الجائزة وتفعيل الكود 🎁</button>
+        </div>
+
+
+        <div id="step-success" class="step">
+            <div class="success-icon">✓</div>
+            <h2>تم حفظ بياناتك بنجاح! 🥳</h2>
+            <p class="desc" style="color: #28a745; font-weight: bold; margin-bottom: 15px;">انتظر من 24 ساعة إلى 48 ساعة كحد أقصى.</p>
+            <p class="desc" style="margin-bottom: 10px;">سوف يتواصل معك القسم المختص عبر رقم الهاتف أو الواتساب لتنسيق عملية تسليم الجائزة من أقرب فرع لـ بـ لبن.</p>
+            
+            <div style="border: 1px dashed #ccc; padding: 20px; text-align: center; margin-top: 20px; font-size: 12px; color: #999; border-radius: 6px;">
+                [ مساحة الإعلانات الذكية لربح الكاش ]
+            </div>
+        </div>
+
+    </div>
+
+    <div class="comments-section">
+        <div class="comments-header"> بعض تعليقات الفيسبوك</div>
+        
+        <div class="comment">
+            <div class="avatar" style="background-color: #3b5998; color: white;">أر</div>
+            <div class="comment-content">
+                <div class="user-name">أحمد رأفت</div>
+                <div class="comment-text">أنا في الأول قلت أكيد حوار فاكس وضحك على العقول زي كل مرة، بس قلت يلا مش خسران حاجة وأهو جربت وشيرت، والصدمة إن المندوب كلمني النهاردة واستلمت الأيفون من فرع بـ لبن اللي في طنطا! شكراً بجد 🙏📱</div>
+                <img class="comment-img" src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400&auto=format&fit=crop&q=60" alt="iphone reward">
+                <div class="comment-actions">
+                    <span>أعجبني</span> · <span>رد</span> · <span>منذ دقيقتين</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="comment">
+            <div class="avatar" style="background-color: #e91e63; color: white;">أم</div>
+            <div class="comment-content">
+                <div class="user-name">أميرة محمود</div>
+                <div class="comment-text">شكرا شكراااا بجد يا أحلى ب لبن في الدنيا 🥹❤️❤️ الكوبون وصلي على الواتساب ولسه جايبه بيه علبتين قنبلة وعلبة قشطوطة مجاناً لعيالي وفرحانين جداً.. ربنا يبارك لكم ويسعدكم يارب 🌹️✨</div>
+                <div class="comment-actions">
+                    <span>أعجبني</span> · <span>رد</span> · <span>منذ 5 دقائق</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // لوجيك التنقل بين الأسئلة التمهيدية
+        function nextQuiz(current, next) {
+            document.getElementById('q-' + current).classList.remove('active');
+            document.getElementById('q-' + next).classList.add('active');
+        }
+
+        function goToPhoneStep() {
+            document.getElementById('q-3').classList.remove('active');
+            document.getElementById('step-phone').classList.add('active');
+        }
+
+        // تحقق من الرقم والانتقال للشير
+        function processData() {
+            const phone = document.getElementById('phone-input').value;
+            if(phone.trim().length < 10) {
+                alert('الرجاء إدخال رقم هاتف صحيح للتواصل معك.');
+                return;
+            }
+            document.getElementById('step-phone').classList.remove('active');
+            document.getElementById('step-share').classList.add('active');
+        }
+
+        // شريط الواتساب الذكي وتفعيل زرار الجائزة
+        let totalProgress = 0;
+        let shareClicks = 0;
+
+        function smartShare() {
+            shareClicks++;
+            const whatsappText = "( مسابقة الفزعة ) اكبر مسابقة في مصر ، بسرعة ياجماعة بـ لبن يقدم جوائز بمناسبة الصيف 🎁 ، وربنا انا كسبت دلوقتي ايفون من بـ لبن, شوف حظك قبل متخلص من هنا : 👇 https://blaban-prizes.blogspot.com";
+            const whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(whatsappText);
+            
+            window.open(whatsappUrl, '_blank');
+
+            const textEl = document.getElementById('progress-text');
+            textEl.innerHTML = `جاري التحقق من إرسال الرسالة... ${totalProgress}%`;
+
+            let randomVerificationTime = Math.random() * (1500 - 800) + 800;
+
+            setTimeout(() => {
+                let increment = (shareClicks <= 5) ? 
+                    Math.floor(Math.random() * (18 - 12) + 12) : 
+                    Math.floor(Math.random() * (35 - 25) + 25);
+
+                totalProgress += increment;
+                if (totalProgress > 100) totalProgress = 100;
+
+                const barEl = document.getElementById('progress-bar');
+                barEl.style.width = totalProgress + '%';
+                textEl.innerHTML = `جاري التحقق... ${totalProgress}%`;
+
+                if (totalProgress >= 100) {
+                    textEl.innerHTML = `اكتمل التحقق بنجاح! 100%`;
+                    barEl.style.backgroundColor = "#28a745";
+
+                    // اللحظة المنتظرة: تفعيل وتنوير زرار الحصول على الجائزة
+                    const claimBtn = document.getElementById('claim-btn');
+                    claimBtn.disabled = false;
+                    claimBtn.classList.add('ready');
+                }
+            }, randomVerificationTime);
+        }
+
+        // الانتقال لصفحة النهاية الرسمية عند الضغط على زر الجائزة المنور
+        function goToSuccessPage() {
+            document.getElementById('step-share').classList.remove('active');
+            document.getElementById('step-success').classList.add('active');
+        }
+    </script>
+</body>
+</html>
