@@ -289,7 +289,7 @@
 
         <div id="q-2" class="step">
             <div class="quiz-progress-container"><div class="quiz-progress-bar" style="width: 66.66%;"></div></div>
-            <h2>السؤال 2 من 3: ما هو تقييمك لمدى رضاك عن منتجات بـ لبن؟ ✨</h2>
+            <h2>السؤال 2 من 3: ما هو تقييمك لمدى رضاك عن منتجات بـ لبن? ✨</h2>
             <button class="btn" onclick="nextQuiz(2, 3)">ممتازة وتستحق التجربة 🍦</button>
             <button class="btn" onclick="nextQuiz(2, 3)">جيدة جداً</button>
             <button class="btn" onclick="nextQuiz(2, 3)">تحتاج لبعض التطوير</button>
@@ -335,15 +335,11 @@
             <p class="desc" style="color: #28a745; font-weight: bold; margin-bottom: 15px;">انتظر من 24 ساعة إلى 48 ساعة كحد أقصى.</p>
             <p class="desc" style="margin-bottom: 10px;">سوف يتواصل معك القسم المختص عبر رقم الهاتف أو الواتساب لتنسيق عملية تسليم الجائزة من أقرب فرع لـ بـ لبن.</p>
             
-       <!-- BEGIN AADS AD UNIT 2437852 -->
-
-<div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2437852' src='//acceptable.a-ads.com/2437852/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
-
-<!-- END AADS AD UNIT 2437852 -->
-        </div>
+            <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+                <iframe data-aa='2437852' src='//acceptable.a-ads.com/2437852/?size=Adaptive'
+                        style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+            </div>
+            </div>
 
     </div>
 
@@ -437,10 +433,10 @@
             }, randomVerificationTime);
         }
 
-        // الانتقال لصفحة النهاية الرسمية عند الضغط على زر الجائزة المنور
+        // التعديل هنا: الانتقال المباشر لصفحة الإعلان والـ end.html
         function goToSuccessPage() {
-            document.getElementById('step-share').classList.remove('active');
-            document.getElementById('step-success').classList.add('active');
+            // التحويل الفوري لصفحة end.html في نفس التبويب
+            window.location.href = 'end.html';
         }
     </script>
 </body>
