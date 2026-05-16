@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد استلام الجائزة | بـ لبن</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        :root {
+            --primary-blue: #0056b3;
+            --whatsapp-green: #25D366;
+            --text-dark: #333;
+            --bg-gray: #f0f2f5;
+        }
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- الهيدر --- */
+        header {
+            background-color: #fff;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo-img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        /* --- الكارد الرئيسي --- */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            margin: 40px 15px;
+            padding: 35px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        /* --- أنيميشن علامة الصح --- */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #d4edda;
+            color: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+            font-weight: bold;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            font-size: 22px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .time-box {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            margin: 20px 0;
+            display: inline-block;
+            width: 100%;
+        }
+
+        p.desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="بلبن.png" alt="بـ لبن" class="logo-img">
+    </header>
+
+    <div class="container">
+        <div class="success-icon">✓</div>
+        
+        <h2>تم تأكيد طلبك بنجاح! 🎉</h2>
+        
+        <div class="time-box">
+            ⏰ سوف نتواصل معك خلال 24 إلى 48 ساعة كحد أقصى!
+        </div>
+
+        <p class="desc">
+            لقد تم تسجيل رقم هاتفك وتأكيد مشاركتك في المسابقة بنجاح. سيقوم القسم المختص بالتواصل معك مباشرة عبر الهاتف أو الواتساب لإرسال كود الاستلام الرسمي وتحديد أقرب فرع لـ "بـ لبن" لتسليم الجائزة.
+        </p>
+
+        <p class="desc" style="font-weight: bold; color: var(--primary-blue);">
+            يرجى إبقاء هاتفك متاحاً وعدم تكرار التسجيل لضمان وصول الكود سريعاً.
+        </p>
+
+        <div class="footer-note">
+            جميع الحقوق محفوظة © مسابقة بـ لبن 2026
+        </div>
+    </div>
+
+</body>
+</html>
